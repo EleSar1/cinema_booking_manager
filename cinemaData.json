@@ -1,0 +1,10 @@
+{
+    "film": [ {
+
+        "Title": null,
+        "Description": null,
+        "Available seats": null
+    } ], 
+    
+    "user": []
+}
