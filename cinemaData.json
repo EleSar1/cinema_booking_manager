@@ -1,9 +1,12 @@
 {
     "film": [ {
 
-        "Title": null,
-        "Description": null,
-        "Available seats": null
+        "title": null,
+        "description": null,
+        "time": null,
+        "theater": null,
+        "availableSeats": null
+        
     } ], 
     
     "user": []
