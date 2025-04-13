@@ -3,8 +3,39 @@ from utils import load_JSON_file, save_JSON_file, create_JSON_file
 
 class Film:
 
+    """
+    A class to represent a film in the cinema system.
+
+    Attributes:
+        title (str): The title of the film.
+        genre (str): The genre of the film.
+        info (str): Additional information or description of the film.
+        time (str): The showtime of the film.
+        theater (str): The name or number of the theater where the film is shown.
+        price (float): The ticket price for the film.
+        available_seats (int): The number of available seats for the film.
+
+    Methods:
+        to_dict():
+            Returns a dictionary representation of the film instance,
+            suitable for JSON serialization.
+    """
+
     def __init__(self, title: str="N/A", genre: str="N/A", info: str="N/A", time: str="N/A", theater: str="N/A", price: float=0, available_seats: int=0):
         
+        """
+        Initializes a Film object with optional details.
+
+        Parameters:
+            title (str): The title of the film. Defaults to "N/A".
+            genre (str): The genre of the film. Defaults to "N/A".
+            info (str): Additional film info or description. Defaults to "N/A".
+            time (str): The showtime of the film. Defaults to "N/A".
+            theater (str): The theater where the film is shown. Defaults to "N/A".
+            price (float): The ticket price. Defaults to 0.
+            available_seats (int): Number of available seats. Defaults to 0.
+        """
+            
         self.title = title
         self.genre = genre
         self.info = info
@@ -16,6 +47,14 @@ class Film:
 
     def to_dict(self):
 
+        """
+        Converts the Film instance into a dictionary format.
+
+        Returns:
+            dict: A dictionary with keys matching the film's attributes,
+                  formatted for JSON serialization.
+        """
+        
         return {
             "title": self.title,
             "genre": self.genre,
