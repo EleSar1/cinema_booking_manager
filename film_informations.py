@@ -54,7 +54,7 @@ class Film:
             dict: A dictionary with keys matching the film's attributes,
                   formatted for JSON serialization.
         """
-        
+
         return {
             "title": self.title,
             "genre": self.genre,
@@ -66,18 +66,43 @@ class Film:
         }
     
 
-def upload_film_info(filename: str, new_film: Film):
+def upload_film_info(filename: str, new_film: Film) -> bool:
+    
+    """
+    Adds a new film to the JSON file if it doesn't already exist.
+
+    Parameters:
+        filename (str): The path to the JSON file containing film data.
+        new_film (Film): An instance of the Film class representing the film to be added.
+
+    Returns:
+        bool: True if the film was successfully added, False if it already exists.
+
+    Raises:
+        TypeError: If 'filename' is not a string or 'new_film' is not a Film instance.
+
+    Notes:
+        Film titles are compared case-insensitively to prevent duplicate entries.
+        If the film already exists, the file will not be modified.
+    """
+        
+    if not isinstance(filename, str):
+        raise TypeError("Expected a string, got a non-string instead.")
+    if not isinstance(new_film, Film):
+        raise TypeError("Expected a Film instance, got a different type.")
     
     film_info = load_JSON_file(filename)
 
     for film in film_info["film"]:
-        if film["title"] == new_film.title:
-            print("This film already exist.")
-            return
+        if film["title"].lower() == new_film.title.lower():
+            print(f"The film {new_film.title} is already in the database.")
+            return False
 
     film_info["film"].append(new_film.to_dict())
 
     save_JSON_file(film_info, filename)
+
+    return True
 
 
 def modify_film_info(filename: str, film_title: str, category: str, new_data: str | int): 
