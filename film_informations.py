@@ -107,6 +107,24 @@ def upload_film_info(filename: str, new_film: Film) -> bool:
 
 def modify_film_info(filename: str, film_title: str, category: str, new_data: str | int): 
 
+    """
+    Modifies a specific key (category) of a film entry in the JSON file.
+
+    Parameters:
+        filename (str): The path to the JSON file containing film data.
+        film_title (str): The title of the film to be updated.
+        category (str): The key of the film to modify (e.g., 'genre', 'price').
+        new_data (str | int): The new value to assign to the specified field.
+
+    Raises:
+        TypeError: If 'filename', 'film_title', or 'category' are not strings,
+                   or if 'new_data' is neither a string nor an integer.
+
+    Notes:
+        - The function updates the key only if the current value differs from the new one.
+        - No changes will be saved if the film is not found or the value is already up to date.
+    """
+
     if not isinstance(new_data, (int, str)):
         raise TypeError(f"Expected a string or an integer for {new_data}.")
 
