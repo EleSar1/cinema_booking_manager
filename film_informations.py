@@ -56,23 +56,3 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
             film[category] = new_data
 
     save_JSON_file(film_info, filename)            
-
-
-filename = "cinemaData.json"
-
-create_JSON_file(filename)
-
-"""title = input("title ")
-genre = input("Genre ")
-info = input("info ")
-time = input("time ")
-theater = input("theater ")
-price = input("price ")
-available_seats = int(input("seats "))
-
-film= Film(title, genre, info, time, theater, price, available_seats)
-
-film_data = upload_film_info(filename, film)"""
-
-new_time = 20
-modify_film_info(filename, "maramao", "availableSeats", new_time)
