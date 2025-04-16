@@ -106,11 +106,29 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
             save_JSON_file(film_info, filename)  
             return True
 
-    print("The film does not exist in the database or the data already exists.")
     return False      
 
 
 def delete_film(filename: str, film_title: str):
+
+    """
+    Deletes a film entry from the JSON file based on its title.
+
+    Parameters:
+        filename (str): The path to the JSON file containing film data.
+        film_title (str): The title of the film to be deleted.
+
+    Raises:
+        TypeError: If 'filename' or 'film_title' is not a string.
+
+    Returns:
+        bool: True if a film was found and deleted, False otherwise.
+
+    Notes:
+        - If the film is found, it will be removed from the list and the changes will be saved.
+        - If multiple films share the same title, only the first match will be removed.
+        - If the film is not found, no changes will be made.
+    """
 
     if not all(isinstance(variable, str) for variable in (filename, film_title)):
         raise TypeError("Expected a string, got a non-string instead.")
@@ -120,5 +138,7 @@ def delete_film(filename: str, film_title: str):
     for i in range(len(film_info["film"])):
         if film_info["film"][i]["title"] == film_title:
             film_info["film"].pop(i)
-            
-    save_JSON_file(film_info, filename)
+            save_JSON_file(film_info, filename)
+            return True
+    
+    return False
