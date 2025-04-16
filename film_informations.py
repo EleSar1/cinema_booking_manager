@@ -87,6 +87,9 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
     Notes:
         - The function updates the key only if the current value differs from the new one.
         - No changes will be saved if the film is not found or the value is already up to date.
+    
+    Returns:
+        bool: True if the modification was successful, False otherwise.
     """
 
     if not isinstance(new_data, (int, str)):
@@ -100,16 +103,17 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
     for film in film_info["film"]:
         if film["title"] == film_title and film[category] != new_data:
             film[category] = new_data
-        else:
-            print("This film doesn't exist in the database or the data already exist.")
-            return False
+            save_JSON_file(film_info, filename)  
+            return True
 
-    save_JSON_file(film_info, filename)      
-
-    return True      
+    print("The film does not exist in the database or the data already exists.")
+    return False      
 
 
 def delete_film(filename: str, film_title: str):
+
+    if not all(isinstance(variable, str) for variable in (filename, film_title)):
+        raise TypeError("Expected a string, got a non-string instead.")
 
     film_info = load_JSON_file(filename)
         
