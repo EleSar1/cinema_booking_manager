@@ -65,4 +65,45 @@ def save_JSON_file(data: dict, filename: str):
     
     with open(filename, mode="w") as file:
         json.dump(data, file, indent=4)
+
+
+def upload_data(filename: str, new_entry: dict, section: str) -> bool:
     
+    """
+    Adds a new entry to the specified section of the JSON file if it doesn't already exist.
+
+    Parameters:
+        filename (str): The path to the JSON file containing data.
+        new_entry (dict): A dictionary representing the entry to be added.
+        section (str): The key in the JSON data where the new entry should be added (e.g., 'film', 'userData').
+
+    Returns:
+        bool: True if the entry was successfully added, False if it already exists.
+
+    Raises:
+        TypeError: If 'filename' or 'section' is not a string or 'new_entry' is not a dict.
+
+    Notes:
+        Entry IDs are compared to prevent duplicate entries.
+        If an entry with the same ID already exists, the file will not be modified.
+    """
+        
+    if not all(isinstance(variable, str) for variable in (filename, section)):
+        raise TypeError("Expected a string, got a non-string instead.")
+    if not isinstance(new_entry, dict):
+        raise TypeError("Expected a dictionary for new_entry, got a different type.")
+    
+    data = load_JSON_file(filename)
+
+    if section not in data:
+        raise ValueError(f"Section '{section}' not found in the JSON file.")
+    
+    for entry in data[section]:
+        if entry["id"] == new_entry["id"]:
+            return False
+
+    data[section].append(new_entry)
+
+    save_JSON_file(data, filename)
+
+    return True
