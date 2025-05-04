@@ -1,7 +1,6 @@
-from utils import load_JSON_file, save_JSON_file, create_JSON_file
+from utils import load_JSON_file, save_JSON_file
 
-
-def to_dict(title: str="N/A", genre: str="N/A", info: str="N/A", time: str="N/A", theater: str="N/A", price: str="N/A", available_seats: int=0) -> dict:
+def to_dict(id: int, title: str="N/A", genre: str="N/A", info: str="N/A", time: str="N/A", theater: str="N/A", price: str="N/A", available_seats: int=0) -> dict:
 
     """
     Creates a dictionary representing a movie or show with the provided details.
@@ -20,6 +19,7 @@ def to_dict(title: str="N/A", genre: str="N/A", info: str="N/A", time: str="N/A"
     """
 
     return {
+            "id": id,
             "title": title,
             "genre": genre,
             "info": info,
@@ -58,8 +58,7 @@ def upload_film_info(filename: str, new_film: dict) -> bool:
     film_info = load_JSON_file(filename)
 
     for film in film_info["film"]:
-        if film["title"].lower() == new_film["title"].lower():
-            print(f"The film {new_film["title"]} is already in the database.")
+        if film["id"] == new_film["id"]:
             return False
 
     film_info["film"].append(new_film)
@@ -69,7 +68,7 @@ def upload_film_info(filename: str, new_film: dict) -> bool:
     return True
 
 
-def modify_film_info(filename: str, film_title: str, category: str, new_data: str | int) -> bool: 
+def modify_film_info(filename: str, film_id: int, category: str, new_data: str | int) -> bool: 
 
     """
     Modifies a specific key (category) of a film entry in the JSON file.
@@ -91,17 +90,19 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
     Returns:
         bool: True if the modification was successful, False otherwise.
     """
-
+    if not isinstance(film_id, int):
+        raise TypeError("Expected an integer for the film id, got a non integer.")
+    
     if not isinstance(new_data, (int, str)):
         raise TypeError(f"Expected a string or an integer for {new_data}.")
 
-    if not all(isinstance(variable, str) for variable in (filename, film_title, category)):
+    if not all(isinstance(variable, str) for variable in (filename, category)):
         raise TypeError("Expected a string, got a non-string instead.")
     
     film_info = load_JSON_file(filename)
 
     for film in film_info["film"]:
-        if film["title"] == film_title and film[category] != new_data:
+        if film["id"] == film_id and film[category] != new_data:
             film[category] = new_data
             save_JSON_file(film_info, filename)  
             return True
@@ -109,7 +110,7 @@ def modify_film_info(filename: str, film_title: str, category: str, new_data: st
     return False      
 
 
-def delete_film(filename: str, film_title: str):
+def delete_film(filename: str, film_id: int):
 
     """
     Deletes a film entry from the JSON file based on its title.
@@ -129,14 +130,16 @@ def delete_film(filename: str, film_title: str):
         - If multiple films share the same title, only the first match will be removed.
         - If the film is not found, no changes will be made.
     """
-
-    if not all(isinstance(variable, str) for variable in (filename, film_title)):
+    if not isinstance(film_id, int):
+        raise TypeError("Expected an integer, got a different value.")
+    
+    if not all(isinstance(variable, str) for variable in (filename)):
         raise TypeError("Expected a string, got a non-string instead.")
 
     film_info = load_JSON_file(filename)
         
     for i in range(len(film_info["film"])):
-        if film_info["film"][i]["title"] == film_title:
+        if film_info["film"][i]["id"] == film_id:
             film_info["film"].pop(i)
             save_JSON_file(film_info, filename)
             return True
