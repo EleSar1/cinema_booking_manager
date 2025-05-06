@@ -35,16 +35,18 @@ def customer(filename: str):
 
     print(f"\nHello {name}.")
     print("Do you want to make, modify or delete your reservation?")
-    choice = int(input("(1: to make a reservation, 2: to modify a reservation, 3: to delete a reservation.)"))
+    choice = int(input("(1: to make a reservation, 2: to modify the number of seats of a reservation, 3: to delete a reservation.)"))
 
     if choice == 1:
 
         data = load_JSON_file(filename)
         
         film_id = None
-        while not check_id_exist(data, film_id, "film"):
+        while not id_exist(data, film_id, "film"):
             try:
-                film_id = int(input("Please enter the film id: "))
+                film_id = int(input("Please enter the film id that you want to reserve: "))
+                if not id_exist(data, film_id, "film"):
+                    print("ID not found. Please enter a valid ID.")
             except ValueError:
                 print("Expected an integer, got a different value.")
 
@@ -54,11 +56,13 @@ def customer(filename: str):
         while reserved_seats < 1:
             try:
                 reserved_seats = int(input("How many seats you want to reserve? "))
+                if reserved_seats < 1:
+                    print("Seats must be at least 1.")
             except ValueError:
                 print("Expected an integer, got a different value.")
         
         reservation_id = make_user_id(data)
-        print(f"Your id is {reservation_id}. Please note that.")
+        print(f"Your id is {reservation_id}. Please save this information.")
 
         new_data = user_data(reservation_id, name, surname, reserved_film, reserved_seats)
         
@@ -74,16 +78,17 @@ def customer(filename: str):
 
         all_data = load_JSON_file(filename)
         try: 
-            id = int(input("Please enter your reservation id: "))
+            reservation_id = int(input("Please enter your reservation id: "))
         except ValueError:
             print("Expected an integer, got a different value.")
 
-        if not id_exist(all_data, id, "userData"): 
+        if not id_exist(all_data, reservation_id, "userData"): 
             print("Id not found.")
         else:
-            for data in all_data["userData"]:
-                if data["id"] == id:
-                    
+            for user_data in all_data["userData"]:
+                if user_data["id"] == reservation_id:
+                    print("Enter the new number of seats:")
+                    seats = None
 
 
 
