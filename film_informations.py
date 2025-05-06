@@ -28,44 +28,6 @@ def to_dict(id: int, title: str="N/A", genre: str="N/A", info: str="N/A", time: 
             "price": price,
             "availableSeats": available_seats
         }
-    
-
-def upload_film_info(filename: str, new_film: dict) -> bool:
-    
-    """
-    Adds a new film to the JSON file if it doesn't already exist.
-
-    Parameters:
-        filename (str): The path to the JSON file containing film data.
-        new_film (dict): A dictionary representing the film to be added.
-
-    Returns:
-        bool: True if the film was successfully added, False if it already exists.
-
-    Raises:
-        TypeError: If 'filename' is not a string or 'new_film' is not a Film instance.
-
-    Notes:
-        Film titles are compared case-insensitively to prevent duplicate entries.
-        If the film already exists, the file will not be modified.
-    """
-        
-    if not isinstance(filename, str):
-        raise TypeError("Expected a string, got a non-string instead.")
-    if not isinstance(new_film, dict):
-        raise TypeError("Expected a dictionary, got a different type.")
-    
-    film_info = load_JSON_file(filename)
-
-    for film in film_info["film"]:
-        if film["id"] == new_film["id"]:
-            return False
-
-    film_info["film"].append(new_film)
-
-    save_JSON_file(film_info, filename)
-
-    return True
 
 
 def modify_film_info(filename: str, film_id: int, category: str, new_data: str | int) -> bool: 
@@ -145,3 +107,19 @@ def delete_film(filename: str, film_id: int):
             return True
     
     return False
+
+
+def subtract_seats(data: dict, film_id: int, reserved_seats: int) -> int:
+
+    for film in data["film"]:
+            if film["id"] == film_id:
+                old_available_seats = film["availableSeats"]
+    return old_available_seats - reserved_seats
+
+
+def add_seats(data: dict, film_id: int, reserved_seats: int) -> int:
+
+    for film in data["film"]:
+            if film["id"] == film_id:
+                old_available_seats = film["availableSeats"]
+    return old_available_seats + reserved_seats
