@@ -1,0 +1,26 @@
+{
+    "1": {
+        "title": "Interstellar",
+        "genre": "Adventure/Sci-Fi",
+        "time": "21:00",
+        "theater": "A",
+        "price": "$8.00",
+        "availableSeats": 160
+    },
+    "2": {
+        "title": "Smile",
+        "genre": "Horror",
+        "time": "22:00",
+        "theater": "B",
+        "price": "$8.00",
+        "availableSeats": 145
+    },
+    "3": {
+        "title": "Minions",
+        "genre": "Animation",
+        "time": "17:00",
+        "theater": "B",
+        "price": "$8.00",
+        "availableSeats": 150
+    }
+}

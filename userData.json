@@ -1,0 +1,26 @@
+{
+    "1": {
+        "name": "ele",
+        "surname": "sarr",
+        "reservedFilm": [
+            "1",
+            "Interstellar",
+            "21:00",
+            "$8.00",
+            "A"
+        ],
+        "reservedSeats": 10
+    },
+    "2": {
+        "name": "mario",
+        "surname": "rossi",
+        "reservedFilm": [
+            "2",
+            "Smile",
+            "22:00",
+            "$8.00",
+            "B"
+        ],
+        "reservedSeats": 5
+    }
+}

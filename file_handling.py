@@ -15,11 +15,10 @@ def create_JSON_file(filename: str):
 
     if not os.path.exists(filename) or os.path.getsize(filename) == 0:
         print("File not found or empty. Will be created a new file.")
-        film_info = {"film": [],
-                     "userData": []}
+        file_info = {}
 
-        save_JSON_file(film_info, filename)
-        return film_info
+        save_JSON_file(file_info, filename)
+        return file_info
     
 
 def load_JSON_file(filename: str) -> dict:
@@ -41,16 +40,15 @@ def load_JSON_file(filename: str) -> dict:
 
     try:
         with open(filename, mode="r") as file:
-            film_info = json.load(file)
+            file_info = json.load(file)
     
     except json.JSONDecodeError:
         print("File JSON is corrupted. Will be initialized again.")
-        film_info = {"film": [],
-                     "userData": []}
+        file_info = {}
         
-        save_JSON_file(film_info, filename)
-             
-    return film_info
+        save_JSON_file(file_info, filename)
+        
+    return file_info
 
 
 def save_JSON_file(data: dict, filename: str):
