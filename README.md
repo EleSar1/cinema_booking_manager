@@ -38,7 +38,7 @@ The program is written in Python and does not have any external dependencies, so
    After cloning the repository, go into the project folder:
 
    ```bash
-   cd cinema-booking-manager
+   cd cinema_booking_manager
    ```
 
 3. **Run the program**:
